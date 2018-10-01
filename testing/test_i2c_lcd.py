@@ -26,3 +26,5 @@ if __name__ == '__main__':
         display_text = display_string_short[x:(x+16)]
         lcd_screen.lcd_display_string(display_text, 1)
         time.sleep(0.1)
+
+    lcd_screen.backlight(0)
