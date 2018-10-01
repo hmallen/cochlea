@@ -146,8 +146,8 @@ if __name__ == '__main__':
                         lcd.lcd_clear()
                         lcd_display('Transcription:', 1)
                         keyword_arguments = {
-                            display_string: speech_input['transcription'],
-                            line_number: 2
+                            'display_string': speech_input['transcription'],
+                            'line_number': 2
                         }
                         lcd_proc = mp.Process(target=lcd_display, args=tuple(), kwargs=keyword_arguments)
                         lcd_proc.start()
