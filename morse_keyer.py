@@ -27,7 +27,7 @@ class MorseKeyer:
         self.angle_rest = angle_rest
         self.angle_keyed = angle_keyed
 
-        self.travel_delay = dot_delay / 2
+        self.travel_delay = dot_delay / 1.5
 
         self.servo = AngularServo(bcm_pin)
         self.servo.angle = self.angle_rest
