@@ -92,14 +92,15 @@ def microphone_speech_input(recognizer, microphone, lcd):
 
 if __name__ == '__main__':
     lcd = i2c_lcd_driver.lcd()
+    lcd.backlight(1)
 
     lcd_display(lcd, 'Speech-to-Morse', 1)
     # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = 4000
-    recognizer.dynamic_energy_threshold = True
-    recognizer.pause_threshold = 0.5
+    recognizer.energy_threshold = parameters['energy_threshold']
+    recognizer.dynamic_energy_threshold = parameters['dynamic_energy_threshold']
+    recognizer.pause_threshold = parameters['pause_threshold']
     microphone = sr.Microphone(device_index=2)
 
     try:
@@ -135,3 +136,5 @@ if __name__ == '__main__':
 
     finally:
         logger.info('Exiting.')
+        lcd.lcd_clear()
+        lcd.backlight(0)
