@@ -18,7 +18,7 @@ with open(morse_reference_file) as file:
 class MorseKeyer:
 
     #def __init__(self, bcm_pin, dot_delay=0.15, dash_delay=0.45, interkey_delay=0.15, interword_delay=1.05, angle_rest=0, angle_keyed=15, travel_delay=0.1):
-    def __init__(self, bcm_pin, dot_delay=0.15, angle_rest=0, angle_keyed=15, travel_delay=0.1):
+    def __init__(self, bcm_pin, dot_delay=0.1, angle_rest=0, angle_keyed=15, travel_delay=0.1):
         self.dot_delay = dot_delay
         self.dash_delay = dot_delay * 3 #dash_delay
 
