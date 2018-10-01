@@ -59,12 +59,11 @@ def microphone_speech_input(recognizer, microphone, lcd):
                otherwise a string containing the transcribed text.
     """
 
-    # check that recognizer and microphone arguments are appropriate type
-    # if not isinstance(recognizer, sr.Recognizer):
-        # raise TypeError('The "recognizer" object must be a "Recognizer" instance.')
-
-    # if not isinstance(microphone, sr.Microphone):
-        # raise TypeError('The "microphone" object must be a "Microphone" instance.')
+    response = {
+        'success': True,
+        'error': None,
+        'transcription': None
+    }
 
     audio = None
     # adjust the recognizer sensitivity to ambient noise and record audio
@@ -83,13 +82,6 @@ def microphone_speech_input(recognizer, microphone, lcd):
     logger.debug('[AFTER] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
 
     logger.info('Transcribing input speech.')
-
-    # set up the response object
-    response = {
-        'success': True,
-        'error': None,
-        'transcription': None
-    }
 
     if audio != None:
         # try recognizing the speech in the recording
@@ -117,7 +109,7 @@ if __name__ == '__main__':
     lcd.backlight(1)
 
     lcd_display(lcd, 'Speech-to-Morse', 1)
-    # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
+    lcd_display(lcd, 'Wait for prompt to speak.', 2)
 
     recognizer = sr.Recognizer()
     recognizer.energy_threshold = parameters['energy_threshold']
