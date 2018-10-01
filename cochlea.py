@@ -140,6 +140,9 @@ if __name__ == '__main__':
                     if speech_input['transcription']:# or not speech_input['success']:
                         break
                     logger.info('Please repeat your last statement.')
+                    lcd.lcd_clear()
+                    lcd_display('Please repeat.', 1)
+                    time.sleep(1)
 
                 if speech_input['error']:
                     logger.error('Error: {}'.format(speech_input['error']))
