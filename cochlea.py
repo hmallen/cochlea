@@ -35,7 +35,7 @@ with open(morse_reference_file) as file:
 
 bcm_pin_servo = 18
 
-lcd_delay = 1
+lcd_delay = 0.1
 
 # Initialize modules
 lcd = i2c_lcd_driver.lcd()
