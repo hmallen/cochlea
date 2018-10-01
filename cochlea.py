@@ -35,7 +35,7 @@ with open(morse_reference_file) as file:
 
 bcm_pin_servo = 18
 
-lcd_delay = 0.5
+lcd_delay = 1
 
 # Initialize modules
 lcd = i2c_lcd_driver.lcd()
@@ -99,6 +99,8 @@ def microphone_speech_input():
 
     if audio != None:
         logger.info('Transcribing input speech.')
+        lcd.lcd_clear()
+        lcd_display('Transcribing...', 1)
 
         # try recognizing the speech in the recording
         # if a RequestError or UnknownValueError exception is caught,
