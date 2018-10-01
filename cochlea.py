@@ -51,12 +51,13 @@ def microphone_speech_input(recognizer, microphone, lcd):
     # if not isinstance(microphone, sr.Microphone):
         # raise TypeError('The "microphone" object must be a "Microphone" instance.')
 
+    audio = None
     # adjust the recognizer sensitivity to ambient noise and record audio
     # from the microphone
     logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
     with microphone as source:
-        logger.debug('Adjusting for ambient noise.')
-        recognizer.adjust_for_ambient_noise(source, duration=1)
+        # logger.debug('Adjusting for ambient noise.')
+        # recognizer.adjust_for_ambient_noise(source, duration=1)
         # time.sleep(1)
         print('Speak now.')
         try:
@@ -74,18 +75,23 @@ def microphone_speech_input(recognizer, microphone, lcd):
         'transcription': None
     }
 
-    # try recognizing the speech in the recording
-    # if a RequestError or UnknownValueError exception is caught,
-    #     update the response object accordingly
-    try:
-        response['transcription'] = recognizer.recognize_google(audio)
-    except sr.RequestError:
-        # API was unreachable or unresponsive
+    if audio != None:
+        # try recognizing the speech in the recording
+        # if a RequestError or UnknownValueError exception is caught,
+        #     update the response object accordingly
+        try:
+            response['transcription'] = recognizer.recognize_google(audio)
+        except sr.RequestError:
+            # API was unreachable or unresponsive
+            response['success'] = False
+            response['error'] = 'API unavailable.'
+        except sr.UnknownValueError:
+            # speech was unintelligible
+            response['error'] = 'Unable to recognize speech.'
+
+    else:
         response['success'] = False
-        response['error'] = 'API unavailable'
-    except sr.UnknownValueError:
-        # speech was unintelligible
-        response['error'] = 'Unable to recognize speech'
+        response['error'] = 'No audio recorded.'
 
     return response
 
