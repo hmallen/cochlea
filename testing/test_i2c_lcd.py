@@ -11,6 +11,6 @@ if __name__ == '__main__':
     while True:
         for x in range(0, len(display_string)):
             display_text = display_string[x:(x+16)]
-            lcd_screen.lcd_display_string(display_text, 1)
+            lcd_screen.lcd_display_string(display_text, 2)
             time.sleep(0.1)
-            lcd_screen.lcd_display_string(str_pad, 1)
+            lcd_screen.lcd_display_string(str_pad, 2)
