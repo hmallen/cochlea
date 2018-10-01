@@ -54,17 +54,17 @@ def microphone_speech_input(recognizer, microphone, lcd):
     audio = None
     # adjust the recognizer sensitivity to ambient noise and record audio
     # from the microphone
-    logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
+    logger.debug('[BEFORE] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
     with microphone as source:
-        # logger.debug('Adjusting for ambient noise.')
-        # recognizer.adjust_for_ambient_noise(source, duration=1)
+        logger.debug('Adjusting for ambient noise.')
+        recognizer.adjust_for_ambient_noise(source, duration=1)
         # time.sleep(1)
         print('Speak now.')
         try:
             audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
         except Exception as e:
             logger.exception(e)
-    logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
+    logger.debug('[AFTER] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
 
     logger.info('Transcribing input speech.')
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     recognizer = sr.Recognizer()
     recognizer.energy_threshold = 150#parameters['energy_threshold']
-    recognizer.dynamic_energy_threshold = False#parameters['dynamic_energy_threshold']
+    recognizer.dynamic_energy_threshold = True#parameters['dynamic_energy_threshold']
     recognizer.pause_threshold = 0.5#parameters['pause_threshold']
     microphone = sr.Microphone(device_index=2)
 
