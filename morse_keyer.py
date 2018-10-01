@@ -18,6 +18,9 @@ with open(morse_reference_file) as file:
 class MorseKeyer:
 
     def __init__(self, bcm_pin, interkey_delay=0.25, interword_delay=1, dash_delay=0.25, angle_rest=0, angle_keyed=45):
+        self.interkey_delay = interkey_delay
+        self.interword_delay = interword_delay
+        self.dash_delay = dash_delay
         self.angle_rest = angle_rest
         self.angle_keyed = angle_keyed
 
@@ -39,13 +42,13 @@ class MorseKeyer:
                 self.servo.angle = self.angle_keyed
                 while self.servo.angle < self.angle_keyed:
                     pass
-                time.sleep(dash_delay)
+                time.sleep(self.dash_delay)
                 self.servo.angle = self.angle_rest
                 while self.servo.angle > self.angle_rest:
                     pass
 
             elif key_type == ' ':
-                time.sleep(interword_delay)
+                time.sleep(self.interword_delay)
 
             else:
                 logger.error('Unrecognized key_type in output_morse.key_press().')
@@ -60,7 +63,7 @@ class MorseKeyer:
 
         for char in morse_output:
             key_press(char)
-            time.sleep(interkey_delay)
+            time.sleep(self.interkey_delay)
 
 
 if __name__ == '__main__':
