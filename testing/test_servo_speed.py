@@ -13,8 +13,11 @@ if __name__ == '__main__':
 
     start = time.time()
     servo.angle = 90
-    while servo.angle < 90:
-        print(servo.angle)
+    while True:
+        ang = servo.angle
+        print(ang)
+        if servo.angle == 90:
+            break
     end = time.time()
 
     duration = end - start
