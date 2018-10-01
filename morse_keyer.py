@@ -40,7 +40,6 @@ class MorseKeyer:
                 morse_output += ' '
             else:
                 morse_output += morse_reference[char.lower()]
-        logger.debug('morse_output: ' + morse_output)
 
         return morse_output
 
