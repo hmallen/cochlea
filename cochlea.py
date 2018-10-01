@@ -147,7 +147,7 @@ if __name__ == '__main__':
                 else:
                     print('Transcription: ' + speech_input['transcription'])
                     if speech_input['transcription'] == 'exit' or speech_input['transcription'] == 'quit':
-                        logger.info('Exiting command received.')
+                        logger.info('Exit command received.')
                         lcd.lcd_clear()
                         lcd_display('Exiting program.', 1)
                         time.sleep(1)
