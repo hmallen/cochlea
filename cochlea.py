@@ -89,10 +89,10 @@ if __name__ == '__main__':
     lcd = i2c_lcd_driver.lcd()
 
     lcd_display(lcd, 'Speech-to-Morse', 1)
-    lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
+    # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = 150
+    recognizer.energy_threshold = 10
     recognizer.dynamic_energy_threshold = True
     recognizer.pause_threshold = 0.5
     microphone = sr.Microphone(device_index=2)
