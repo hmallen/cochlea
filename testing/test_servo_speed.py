@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     servo.angle = -90
 
-    time.sleep(3)
+    time.sleep(1)
 
     start = time.time()
     servo.angle = 90
