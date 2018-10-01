@@ -92,5 +92,5 @@ if __name__ == '__main__':
     output_result = morse.output_morse(morse_input)
     logger.debug('output_result: ' + str(output_result))
 
-    if result['success'] is False:
-        print('Error: ' + result['error'])
+    if output_result['success'] is False:
+        print('Error: ' + output_result['error'])
