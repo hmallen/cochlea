@@ -35,7 +35,7 @@ class MorseKeyer:
 
         self.servo = AngularServo(bcm_pin)
         self.servo.angle = self.angle_rest
-        while self.servo.value != self.angle_rest:
+        while self.servo.angle != self.angle_rest:
             continue
 
     def string_to_morse(self, input_string):
@@ -60,28 +60,28 @@ class MorseKeyer:
             if key_type == '.':
                 self.servo.angle = self.angle_keyed
                 # time.sleep(self.travel_delay)
-                while self.servo.value != self.angle_keyed:
-                    continue
+                while self.servo.angle != self.angle_keyed:
+                    print(self.servo.angle)
 
                 time.sleep(self.dot_duration)
 
                 self.servo.angle = self.angle_rest
                 # time.sleep(self.travel_delay)
-                while self.servo.value != self.angle_rest:
-                    continue
+                while self.servo.angle != self.angle_rest:
+                    print(self.servo.angle)
 
             elif key_type == '-':
                 self.servo.angle = self.angle_keyed
                 # time.sleep(self.travel_delay)
-                while self.servo.value != self.angle_keyed:
-                    continue
+                while self.servo.angle != self.angle_keyed:
+                    print(self.servo.angle)
 
                 time.sleep(self.dash_duration)
 
                 self.servo.angle = self.angle_rest
                 # time.sleep(self.travel_delay)
-                while self.servo.value != self.angle_rest:
-                    continue
+                while self.servo.angle != self.angle_rest:
+                    print(self.servo.angle)
 
             elif key_type == ' ':
                 time.sleep(self.interword_delay - self.interkey_delay)
