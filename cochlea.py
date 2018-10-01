@@ -127,7 +127,7 @@ if __name__ == '__main__':
     lcd_display('Speech-to-Morse', 1)
     time.sleep(2)
     lcd.lcd_clear()
-    lcd_display('Wait for prompt to speak.', 1)
+    lcd_display('Wait for prompt to begin speaking.', 1)
     lcd.lcd_clear()
 
     recognizer.energy_threshold = parameters['energy_threshold']
