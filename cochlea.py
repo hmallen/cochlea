@@ -14,7 +14,7 @@ logger.setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-e', '--energy_thresh', type=float, default=300, help='Energy threshold')
-parser.add_argument('-d', '--dynamic_thresh', action='store_true', default=False, help='Dynamic energy threshold')
+parser.add_argument('-d', '--dynamic_thresh', action='store_false', default=True, help='Dynamic energy threshold')
 parser.add_argument('-p', '--pause_thresh', type=float, default=0.5, help='Pause threshold')
 args = parser.parse_args()
 
