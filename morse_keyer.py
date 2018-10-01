@@ -32,23 +32,27 @@ class MorseKeyer:
         def key_press(key_type):
             if key_type == '.':
                 self.servo.angle = self.angle_keyed
-                while self.servo.angle < self.angle_keyed:
-                    pass
+                time.sleep(0.1)
+                # while self.servo.angle < self.angle_keyed:
+                    # pass
                 print(self.servo.angle)
                 self.servo.angle = self.angle_rest
-                while self.servo.angle > self.angle_rest:
-                    pass
+                time.sleep(0.1)
+                # while self.servo.angle > self.angle_rest:
+                    # pass
                 print(self.servo.angle)
 
             elif key_type == '-':
                 self.servo.angle = self.angle_keyed
-                while self.servo.angle < self.angle_keyed:
-                    pass
+                time.sleep(0.1)
+                # while self.servo.angle < self.angle_keyed:
+                    # pass
                 print(self.servo.angle)
                 time.sleep(self.dash_delay)
                 self.servo.angle = self.angle_rest
-                while self.servo.angle > self.angle_rest:
-                    pass
+                time.sleep(0.1)
+                # while self.servo.angle > self.angle_rest:
+                    # pass
                 print(self.servo.angle)
 
             elif key_type == ' ':
