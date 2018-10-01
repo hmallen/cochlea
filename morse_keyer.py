@@ -57,6 +57,8 @@ class MorseKeyer:
         }
 
         def key_press(key_type):
+            logger.debug('key_type: ' + key_type)
+
             if key_type == '.':
                 self.servo.angle = self.angle_keyed
                 # time.sleep(self.travel_delay)
