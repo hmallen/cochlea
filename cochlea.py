@@ -11,6 +11,11 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+morse_reference_file = 'morse_reference.json'
+
+with open(morse_reference_file) as file:
+    morse_reference = json.load(file)
+
 
 def lcd_display(lcd, display_string, line_number):
     if len(display_string) <= 16:
