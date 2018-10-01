@@ -1,3 +1,4 @@
+import argparse
 import i2c_lcd_driver
 import json
 import logging
@@ -10,6 +11,18 @@ import time
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-e', '--energy_thresh', type=float, default=100, help='Energy threshold')
+parser.add_argument('-d', '--dynamic_thresh', type=bool, default=True, help='Dynamic energy threshold')
+parser.add_argument('-p', '--pause_thresh', type=float, default=0.5, help='Pause threshold')
+args = parser.parse_args()
+
+parameters = {
+    'energy_threshold': args.energy_thresh,
+    'dynamic_energy_threshold': args.dynamic_thresh,
+    'pause_threshold': args.paush_thresh
+}
 
 morse_reference_file = 'morse_reference.json'
 
@@ -104,9 +117,9 @@ if __name__ == '__main__':
     # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = 150#parameters['energy_threshold']
-    recognizer.dynamic_energy_threshold = True#parameters['dynamic_energy_threshold']
-    recognizer.pause_threshold = 0.5#parameters['pause_threshold']
+    recognizer.energy_threshold = parameters['energy_threshold']
+    recognizer.dynamic_energy_threshold = parameters['dynamic_energy_threshold']
+    recognizer.pause_threshold = parameters['pause_threshold']
     microphone = sr.Microphone(device_index=2)
 
     try:
