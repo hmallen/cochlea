@@ -24,6 +24,8 @@ parameters = {
     'pause_threshold': args.pause_thresh
 }
 
+logger.debug('parameters: ' + str(parameters))
+
 morse_reference_file = 'morse_reference.json'
 
 with open(morse_reference_file) as file:
