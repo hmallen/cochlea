@@ -73,7 +73,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
     with microphone as source:
         if parameters['dynamic_energy_threshold'] is True:
             logger.debug('Adjusting for ambient noise.')
-            recognizer.adjust_for_ambient_noise(source, duration=1)
+            recognizer.adjust_for_ambient_noise(source)#, duration=1)
             # time.sleep(1)
         print('Speak now.')
         try:
