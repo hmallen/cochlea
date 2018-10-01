@@ -35,7 +35,7 @@ with open(morse_reference_file) as file:
 
 bcm_pin_servo = 18
 
-lcd_delay = 0.15
+lcd_delay = 0.5
 
 # Initialize modules
 lcd = i2c_lcd_driver.lcd()
@@ -57,7 +57,7 @@ def lcd_display(display_string, line_number):
         for x in range(0, (len(display_string) - 15)):
             display_text = display_string[x:(x+16)]
             lcd.lcd_display_string(display_text, line_number)
-            time.sleep(lcd_delay)
+            time.sleep(0.15)
 
 
 def microphone_speech_input():
@@ -92,7 +92,7 @@ def microphone_speech_input():
         logger.info('Speak now.')
         lcd_display('Speak now.', 2)
         try:
-            audio = recognizer.listen(source, timeout=15, phrase_time_limit=30)
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=30)
         except sr.WaitTimeoutError:
             logger.debug('Timed-out while waiting for microphone input.')
     logger.debug('[AFTER] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
@@ -144,6 +144,8 @@ if __name__ == '__main__':
                     print('Transcription: ' + speech_input['transcription'])
                     if speech_input['transcription'] == 'exit' or speech_input['transcription'] == 'quit':
                         logger.info('Exiting command received.')
+                        lcd.lcd_clear()
+                        lcd_display('Exiting program.')
                         break
                     else:
                         lcd.lcd_clear()
