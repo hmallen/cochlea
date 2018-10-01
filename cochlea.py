@@ -2,6 +2,8 @@ import argparse
 import i2c_lcd_driver
 import json
 import logging
+from morse_keyer import MorseKeyer
+import multiprocessing as mp
 import os
 from pprint import pprint
 import speech_recognition as sr
@@ -31,8 +33,16 @@ morse_reference_file = 'morse_reference.json'
 with open(morse_reference_file) as file:
     morse_reference = json.load(file)
 
+bcm_pin_servo = 18
 
-def lcd_display(lcd, display_string, line_number):
+# Initialize modules
+lcd = i2c_lcd_driver.lcd()
+recognizer = sr.Recognizer()
+microphone = sr.Microphone(device_index=2, sample_rate=44100)
+morse = MorseKeyer(bcm_pin_servo)
+
+
+def lcd_display(display_string, line_number):
     if len(display_string) <= 16:
         lcd.lcd_display_string(display_string, line_number)
 
@@ -41,13 +51,13 @@ def lcd_display(lcd, display_string, line_number):
 
         lcd.lcd_display_string(display_string, line_number)
         time.sleep(2.5)
-        for x in range(0, (len(display_string) - 16)):
+        for x in range(0, (len(display_string) - 15)):
             display_text = display_string[x:(x+16)]
             lcd.lcd_display_string(display_text, line_number)
             time.sleep(0.15)
 
 
-def microphone_speech_input(recognizer, microphone, lcd):
+def microphone_speech_input():
     """Transcribe speech from recorded from microphone.
     Returns a dictionary with three keys:
     'success': a boolean indicating whether or not the API request was
@@ -72,18 +82,21 @@ def microphone_speech_input(recognizer, microphone, lcd):
     with microphone as source:
         if parameters['dynamic_energy_threshold'] is True:
             logger.debug('Adjusting for ambient noise.')
+            lcd.clear()
+            lcd_display('Calibrating...', 1)
             recognizer.adjust_for_ambient_noise(source)#, duration=1)
             # time.sleep(1)
-        print('Speak now.')
+        logger.info('Speak now.')
+        lcd.display('Speak now.', 2)
         try:
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-        except Exception as e:
-            logger.exception(e)
+            audio = recognizer.listen(source, timeout=15, phrase_time_limit=30)
+        except sr.WaitTimeoutError:
+            logger.debug('Timed-out while waiting for microphone input.')
     logger.debug('[AFTER] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
 
-    logger.info('Transcribing input speech.')
-
     if audio != None:
+        logger.info('Transcribing input speech.')
+
         # try recognizing the speech in the recording
         # if a RequestError or UnknownValueError exception is caught,
         #     update the response object accordingly
@@ -105,25 +118,22 @@ def microphone_speech_input(recognizer, microphone, lcd):
 
 
 if __name__ == '__main__':
-    lcd = i2c_lcd_driver.lcd()
     lcd.backlight(1)
 
-    lcd_display(lcd, 'Speech-to-Morse', 1)
-    lcd_display(lcd, 'Wait for prompt to speak.', 2)
+    lcd_display('Speech-to-Morse', 1)
+    lcd_display('Wait for prompt to speak.', 2)
 
-    recognizer = sr.Recognizer()
     recognizer.energy_threshold = parameters['energy_threshold']
     recognizer.dynamic_energy_threshold = parameters['dynamic_energy_threshold']
     recognizer.pause_threshold = parameters['pause_threshold']
-    microphone = sr.Microphone(device_index=2)
 
     try:
         while True:
                 while True:
-                    speech_input = microphone_speech_input(recognizer, microphone, lcd)
-                    if speech_input['transcription'] or not speech_input['success']:
+                    speech_input = microphone_speech_input()
+                    if speech_input['transcription']:# or not speech_input['success']:
                         break
-                    print('Please repeat your last statement.')
+                    logger.info('Please repeat your last statement.')
 
                 if speech_input['error']:
                     logger.error('Error: {}'.format(speech_input['error']))
@@ -133,13 +143,22 @@ if __name__ == '__main__':
                         logger.info('Exiting command received.')
                         break
                     else:
-                        morse_output = ''
-                        for char in speech_input['transcription']:
-                            if char == ' ':
-                                morse_output += ' '
-                            else:
-                                morse_output += '(' + morse_reference[char.lower()] + ')'
-                        print('Morse: ' + morse_output)
+                        lcd.lcd_clear()
+                        lcd_display('Transcription:', 1)
+                        keyword_arguments = {
+                            display_string: speech_input['transcription'],
+                            line_number: 2
+                        }
+                        lcd_proc = mp.Process(target=lcd_display, args=tuple(), kwargs=keyword_arguments)
+                        lcd_proc.start()
+
+                        morse_input = morse.string_to_morse(speech_input['transcription'])
+                        logger.debug('morse_input: ' + morse_input)
+                        output_result = morse.output_morse(morse_input)
+                        logger.debug('output_result: ' + str(output_result))
+
+                        lcd_proc.join()
+                        lcd.lcd_clear()
 
     except Exception as e:
         logger.exception(e)
