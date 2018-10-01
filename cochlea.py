@@ -125,7 +125,10 @@ if __name__ == '__main__':
     lcd.backlight(1)
 
     lcd_display('Speech-to-Morse', 1)
-    lcd_display('Wait for prompt to speak.', 2)
+    time.sleep(2)
+    lcd.lcd_clear()
+    lcd_display('Wait for prompt to speak.', 1)
+    lcd.lcd_clear()
 
     recognizer.energy_threshold = parameters['energy_threshold']
     recognizer.dynamic_energy_threshold = parameters['dynamic_energy_threshold']
@@ -154,10 +157,10 @@ if __name__ == '__main__':
                         break
                     else:
                         lcd.lcd_clear()
-                        lcd_display('Transcription:', 1)
+                        #lcd_display('Transcription:', 1)
                         keyword_arguments = {
                             'display_string': speech_input['transcription'],
-                            'line_number': 2
+                            'line_number': 1
                         }
                         lcd_proc = mp.Process(target=lcd_display, args=tuple(), kwargs=keyword_arguments)
                         lcd_proc.start()
