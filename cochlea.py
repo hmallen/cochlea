@@ -87,7 +87,7 @@ def microphone_speech_input():
             recognizer.adjust_for_ambient_noise(source)#, duration=1)
             # time.sleep(1)
         logger.info('Speak now.')
-        lcd.display('Speak now.', 2)
+        lcd_display('Speak now.', 2)
         try:
             audio = recognizer.listen(source, timeout=15, phrase_time_limit=30)
         except sr.WaitTimeoutError:
