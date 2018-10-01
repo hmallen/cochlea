@@ -48,12 +48,12 @@ def lcd_display(display_string, line_number):
         time.sleep(0.5)
 
     else:
-        display_string = display_string + (' ' * 16)
+        display_input = display_string + (' ' * 16)
 
-        lcd.lcd_display_string(display_string, line_number)
+        lcd.lcd_display_string(display_input, line_number)
         time.sleep(1)
-        for x in range(0, (len(display_string) - 31)):
-            display_text = display_string[x:(x+16)]
+        for x in range(0, (len(display_input) - 31)):
+            display_text = display_input[x:(x+16)]
             lcd.lcd_display_string(display_text, line_number)
             time.sleep(0.15)
         time.sleep(1)
