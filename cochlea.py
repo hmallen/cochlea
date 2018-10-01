@@ -53,7 +53,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
 
     # adjust the recognizer sensitivity to ambient noise and record audio
     # from the microphone
-    logger.debug('recognizer.energy_level: ' + str(recognizer.energy_level))
+    logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
     with microphone as source:
         logger.debug('Adjusting for ambient noise.')
         recognizer.adjust_for_ambient_noise(source, duration=5)
@@ -63,7 +63,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
             audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
         except Exception as e:
             logger.exception(e)
-    logger.debug('recognizer.energy_level: ' + str(recognizer.energy_level))
+    logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
 
     logger.info('Transcribing input speech.')
 
