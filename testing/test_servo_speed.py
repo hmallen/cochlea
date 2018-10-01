@@ -25,3 +25,9 @@ if __name__ == '__main__':
 
     sec_per_deg = duration / 180
     print('sec_per_deg: ' + str(sec_per_deg))
+
+    time.sleep(3)
+
+    servo.angle = -90
+    servo.angle = 90
+    servo.angle = -90
