@@ -17,7 +17,7 @@ with open(morse_reference_file) as file:
 
 class MorseKeyer:
 
-    def __init__(self, bcm_pin, interkey_delay=0.1, interword_delay=1, dash_delay=0.5, angle_rest=0, angle_keyed=15, travel_delay=0.1):
+    def __init__(self, bcm_pin, interkey_delay=0.15, interword_delay=1.05, dash_delay=0.45, angle_rest=0, angle_keyed=15, travel_delay=0.1):
         self.interkey_delay = interkey_delay
         self.interword_delay = interword_delay
         self.dash_delay = dash_delay
@@ -28,7 +28,23 @@ class MorseKeyer:
         self.servo = AngularServo(bcm_pin)
         self.servo.angle = self.angle_rest
 
-    def output_morse(self, input_string):
+    def string_to_morse(self, input_string):
+        morse_output = ''
+        for char in input_string:
+            if char == ' ':
+                morse_output += ' '
+            else:
+                morse_output += morse_reference[char.lower()]
+        logger.debug('morse_output: ' + morse_output)
+
+        return morse_output
+
+    def output_morse(self, morse_string):
+        output_return = {
+            'success': True,
+            'input': morse_string,
+            'error': None
+        }
 
         def key_press(key_type):
             if key_type == '.':
@@ -62,20 +78,19 @@ class MorseKeyer:
             else:
                 logger.error('Unrecognized key_type in output_morse.key_press().')
 
-        morse_output = ''
-        for char in input_string:
-            if char == ' ':
-                morse_output += ' '
-            else:
-                morse_output += morse_reference[char.lower()]
-        logger.debug('morse_output: ' + morse_output)
-
-        for char in morse_output:
+        for char in morse_string:
             key_press(char)
             time.sleep(self.interkey_delay)
 
 
 if __name__ == '__main__':
     morse = MorseKeyer(servo_pin)
-    morse_test = 'hello world'
-    morse.output_morse(morse_test)
+
+    morse_input = morse.string_to_morse('Hello, world!')
+    logger.debug('morse_input: ' + morse_input)
+
+    output_result = morse.output_morse(morse_input)
+    logger.debug('output_result: ' + str(output_result))
+
+    if result['success'] is False:
+        print('Error: ' + result['error'])

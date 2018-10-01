@@ -7,6 +7,9 @@ name = "pypi"
 speechrecognition = "*"
 google-api-python-client = "*"
 pyaudio = "*"
+gpiozero = "*"
+pigpio = "*"
+pocketsphinx = "*"
 
 [dev-packages]
 

@@ -1,3 +1,4 @@
+import i2c_lcd_driver
 import json
 import logging
 import os
@@ -10,11 +11,24 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-morse_reference_file = 'morse_reference.json'
+
+def lcd_display(lcd, display_string, line_number):
+    if len(display_string) <= 16:
+        lcd.lcd_display_string(display_string, line_number)
+
+    else:
+        display_string = (' ' * 16) + display_string
+
+        lcd.lcd_display_string(display_string, line_number)
+        time.sleep(2.5)
+        for x in range(0, (len(display_string) - 16)):
+            display_text = display_string[x:(x+16)]
+            lcd.lcd_display_string(display_text, line_number)
+            time.sleep(0.15)
 
 
-def recognize_speech_from_mic(recognizer, microphone):
-    """Transcribe speech from recorded from 'microphone'.
+def microphone_speech_input(recognizer, microphone, lcd):
+    """Transcribe speech from recorded from microphone.
     Returns a dictionary with three keys:
     'success': a boolean indicating whether or not the API request was
                successful.
@@ -63,58 +77,48 @@ def recognize_speech_from_mic(recognizer, microphone):
         # speech was unintelligible
         response['error'] = 'Unable to recognize speech'
 
-    """
-    try:
-        response['transcription'] = recognizer.recognize_google_cloud(audio, credentials_json=gcs_credentials)
-    except sr.UnknownValueError:
-        logger.error('Google Cloud Speech could not understand audio.')
-        response['success'] = False
-        response['error'] = 'Unable to recognize speech.'
-    except sr.RequestError as e:
-        response['success'] = False
-        response['error'] = 'API unavailable. Error: {0}'.format(e)
-    """
-
     return response
 
 
 if __name__ == '__main__':
-    with open(morse_reference_file) as file:
-        morse_reference = json.load(file)
-    # pprint(morse_reference)
+    lcd = i2c_lcd_driver.lcd()
+
+    lcd_display(lcd, 'Speech-to-Morse', 1)
+    lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
 
-    while True:
-        try:
-            while True:
-                speech_input = recognize_speech_from_mic(recognizer, microphone)
-                if speech_input['transcription'] or not speech_input['success']:
-                    break
-                print('Please repeat your last statement.')
+    try:
+        while True:
+                while True:
+                    speech_input = microphone_speech_input(recognizer, microphone, lcd)
+                    if speech_input['transcription'] or not speech_input['success']:
+                        break
+                    print('Please repeat your last statement.')
 
-            if speech_input['error']:
-                logger.error('Error: {}'.format(speech_input['error']))
-            else:
-                print('Transcription: ' + speech_input['transcription'])
-                if speech_input['transcription'] == 'exit' or speech_input['transcription'] == 'quit':
-                    print('Exiting program.')
-                    break
+                if speech_input['error']:
+                    logger.error('Error: {}'.format(speech_input['error']))
                 else:
-                    morse_output = ''
-                    for char in speech_input['transcription']:
-                        if char == ' ':
-                            morse_output += ' '
-                        else:
-                            morse_output += '(' + morse_reference[char.lower()] + ')'
-                    print('Morse: ' + morse_output)
+                    print('Transcription: ' + speech_input['transcription'])
+                    if speech_input['transcription'] == 'exit' or speech_input['transcription'] == 'quit':
+                        logger.info('Exiting command received.')
+                        break
+                    else:
+                        morse_output = ''
+                        for char in speech_input['transcription']:
+                            if char == ' ':
+                                morse_output += ' '
+                            else:
+                                morse_output += '(' + morse_reference[char.lower()] + ')'
+                        print('Morse: ' + morse_output)
 
-        except Exception as e:
-            logger.exception(e)
+    except Exception as e:
+        logger.exception(e)
 
-        except KeyboardInterrupt:
-            logger.info('Exit signal received.')
-            break
+    except KeyboardInterrupt:
+        logger.info('Exit signal received.')
+        # break
 
-    logger.info('Exiting.')
+    finally:
+        logger.info('Exiting.')
