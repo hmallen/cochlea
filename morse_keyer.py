@@ -17,17 +17,32 @@ with open(morse_reference_file) as file:
 
 class MorseKeyer:
 
-    def __init__(self, bcm_pin, interkey_delay=0.25, interword_delay=1):
+    def __init__(self, bcm_pin, interkey_delay=0.25, interword_delay=1, dash_delay=0.25, angle_rest=0, angle_keyed=45):
+        self.angle_rest = angle_rest
+        self.angle_keyed = angle_keyed
+
         self.servo = AngularServo(bcm_pin)
+        self.servo.angle = self.angle_rest
 
     def output_morse(input_string):
 
         def key_press(key_type):
             if key_type == '.':
-                pass
+                self.servo.angle = self.angle_keyed
+                while self.servo.angle < self.angle_keyed:
+                    pass
+                self.servo.angle = self.angle_rest
+                while self.servo.angle > self.angle_rest:
+                    pass
 
             elif key_type == '-':
-                pass
+                self.servo.angle = self.angle_keyed
+                while self.servo.angle < self.angle_keyed:
+                    pass
+                time.sleep(dash_delay)
+                self.servo.angle = self.angle_rest
+                while self.servo.angle > self.angle_rest:
+                    pass
 
             elif key_type == ' ':
                 time.sleep(interword_delay)
@@ -51,5 +66,4 @@ class MorseKeyer:
 if __name__ == '__main__':
     morse = MorseKeyer()
     morse_test = 'hello world'
-
-    output_morse(morse_test)
+    morse.output_morse(morse_test)
