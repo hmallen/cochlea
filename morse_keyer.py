@@ -24,7 +24,7 @@ class MorseKeyer:
         self.servo = AngularServo(bcm_pin)
         self.servo.angle = self.angle_rest
 
-    def output_morse(input_string):
+    def output_morse(self, input_string):
 
         def key_press(key_type):
             if key_type == '.':
