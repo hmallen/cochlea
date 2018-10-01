@@ -16,7 +16,7 @@ if __name__ == '__main__':
         time.sleep(0.1)
         # lcd_screen.lcd_display_string(str_pad, 2)
 
-    lcd_screen.clear()
+    lcd_screen.lcd_clear()
     time.sleep(1)
 
     display_string_short = display_string[16:]
