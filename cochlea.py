@@ -55,10 +55,10 @@ def microphone_speech_input(recognizer, microphone, lcd):
     # from the microphone
     with microphone as source:
         logger.debug('Adjusting for ambient noise.')
-        recognizer.adjust_for_ambient_noise(source, duration=1)
+        recognizer.adjust_for_ambient_noise(source, duration=2)
         # time.sleep(1)
         print('Speak now.')
-        audio = recognizer.listen(source)
+        audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
 
     logger.info('Transcribing input speech.')
 
@@ -92,6 +92,9 @@ if __name__ == '__main__':
     lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
+    recognizer.energy_threshold = 4000
+    recognizer.dynamic_energy_threshold = True
+    recognizer.pause_threshold = 0.5
     microphone = sr.Microphone(device_index=2)
 
     try:
