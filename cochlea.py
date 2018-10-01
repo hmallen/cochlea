@@ -17,7 +17,7 @@ def lcd_display(lcd, display_string, line_number):
         lcd.lcd_display_string(display_string, line_number)
 
     else:
-        display_string = (' ' * 16) + display_string
+        display_string = display_string + (' ' * 16)
 
         lcd.lcd_display_string(display_string, line_number)
         time.sleep(2.5)
@@ -50,8 +50,8 @@ def microphone_speech_input(recognizer, microphone, lcd):
     # from the microphone
     with microphone as source:
         logger.debug('Adjusting for ambient noise.')
-        recognizer.adjust_for_ambient_noise(source)
-        time.sleep(1)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
+        # time.sleep(1)
         print('Speak now.')
         audio = recognizer.listen(source)
 
