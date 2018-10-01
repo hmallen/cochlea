@@ -56,7 +56,7 @@ class MorseKeyer:
                 self.servo.angle = self.angle_keyed
                 time.sleep(self.travel_delay)
 
-                time.sleep()
+                time.sleep(self.dot_delay)
 
                 self.servo.angle = self.angle_rest
                 time.sleep(self.travel_delay)
@@ -84,6 +84,7 @@ class MorseKeyer:
         except Exception as e:
             logger.exception(e)
             output_return['success'] = False
+            output_return['error'] = str(e)
 
         finally:
             return output_return
