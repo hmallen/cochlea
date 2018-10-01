@@ -35,8 +35,6 @@ with open(morse_reference_file) as file:
 
 bcm_pin_servo = 18
 
-lcd_delay = 0.5
-
 # Initialize modules
 lcd = i2c_lcd_driver.lcd()
 recognizer = sr.Recognizer()
@@ -47,18 +45,18 @@ morse = MorseKeyer(bcm_pin_servo)
 def lcd_display(display_string, line_number):
     if len(display_string) <= 16:
         lcd.lcd_display_string(display_string, line_number)
-        time.sleep(lcd_delay)
+        time.sleep(0.5)
 
     else:
         display_string = display_string + (' ' * 16)
 
         lcd.lcd_display_string(display_string, line_number)
-        time.sleep(2.5)
+        time.sleep(1)
         for x in range(0, (len(display_string) - 31)):
             display_text = display_string[x:(x+16)]
             lcd.lcd_display_string(display_text, line_number)
-            time.sleep(0.1)
-        time.sleep(2.5)
+            time.sleep(0.15)
+        time.sleep(1)
 
 
 def microphone_speech_input():
