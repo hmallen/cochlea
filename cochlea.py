@@ -81,10 +81,10 @@ def microphone_speech_input(recognizer, microphone, lcd):
 
 
 if __name__ == '__main__':
-    # lcd = i2c_lcd_driver.lcd()
+    lcd = i2c_lcd_driver.lcd()
 
-    # lcd_display(lcd, 'Speech-to-Morse', 1)
-    # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
+    lcd_display(lcd, 'Speech-to-Morse', 1)
+    lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
     microphone = sr.Microphone(device_index=2)
