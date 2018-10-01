@@ -8,7 +8,6 @@ if __name__ == '__main__':
     time.sleep(1)
 
     servo.angle = -90
-    print('ang: ' + str(ang))
 
     time.sleep(3)
 
