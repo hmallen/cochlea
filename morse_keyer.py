@@ -17,7 +17,7 @@ with open(morse_reference_file) as file:
 
 class MorseKeyer:
 
-    def __init__(self, bcm_pin, interkey_delay=0.1, interword_delay=1, dash_delay=0.5, angle_rest=0, angle_keyed=20, travel_delay=0.1):
+    def __init__(self, bcm_pin, interkey_delay=0.1, interword_delay=1, dash_delay=0.5, angle_rest=0, angle_keyed=15, travel_delay=0.1):
         self.interkey_delay = interkey_delay
         self.interword_delay = interword_delay
         self.dash_delay = dash_delay
@@ -36,25 +36,25 @@ class MorseKeyer:
                 time.sleep(self.travel_delay)
                 # while self.servo.angle < self.angle_keyed:
                     # pass
-                print(self.servo.angle)
+                # print(self.servo.angle)
                 self.servo.angle = self.angle_rest
                 time.sleep(self.travel_delay)
                 # while self.servo.angle > self.angle_rest:
                     # pass
-                print(self.servo.angle)
+                # print(self.servo.angle)
 
             elif key_type == '-':
                 self.servo.angle = self.angle_keyed
                 time.sleep(self.travel_delay)
                 # while self.servo.angle < self.angle_keyed:
                     # pass
-                print(self.servo.angle)
+                # print(self.servo.angle)
                 time.sleep(self.dash_delay)
                 self.servo.angle = self.angle_rest
                 time.sleep(self.travel_delay)
                 # while self.servo.angle > self.angle_rest:
                     # pass
-                print(self.servo.angle)
+                # print(self.servo.angle)
 
             elif key_type == ' ':
                 time.sleep(self.interword_delay)
