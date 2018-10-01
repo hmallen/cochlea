@@ -15,4 +15,4 @@ if __name__ == '__main__':
             display_text = display_string[x:(x+16)]
             lcd_screen.lcd_display_string(display_text, 2)
             time.sleep(0.15)
-            lcd_screen.lcd_display_string(str_pad, 2)
+            #lcd_screen.lcd_display_string(str_pad, 2)
