@@ -76,7 +76,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
         # time.sleep(1)
         print('Speak now.')
         try:
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
+            audio = recognizer.listen(source, timeout=2, phrase_time_limit=5)
         except Exception as e:
             logger.exception(e)
     logger.debug('[AFTER] recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
