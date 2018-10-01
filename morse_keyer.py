@@ -59,7 +59,7 @@ class MorseKeyer:
         def key_press(key_type):
             logger.debug('key_type: ' + key_type)
 
-            travel_delay = 0.02 * abs(angle_keyed - angle_rest)
+            travel_delay = 0.02 * abs(self.angle_keyed - self.angle_rest)
             logger.debug('travel_delay: ' + str(travel_delay))
 
             if key_type == '.':
