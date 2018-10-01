@@ -35,7 +35,7 @@ with open(morse_reference_file) as file:
 
 bcm_pin_servo = 18
 
-lcd_delay = 0.1
+lcd_delay = 0.5
 
 # Initialize modules
 lcd = i2c_lcd_driver.lcd()
@@ -149,6 +149,7 @@ if __name__ == '__main__':
                         logger.info('Exiting command received.')
                         lcd.lcd_clear()
                         lcd_display('Exiting program.', 1)
+                        time.sleep(1)
                         break
                     else:
                         lcd.lcd_clear()
