@@ -17,26 +17,21 @@ with open(morse_reference_file) as file:
 
 class MorseKeyer:
 
-    def __init__(self, bcm_pin, dot_duration=0.15):#, interkey_delay=0.15, interword_delay=1.05, dash_duration=0.45, angle_rest=0, angle_keyed=15, travel_delay=0.1):
-        # self.interkey_delay = interkey_delay
-        # self.interword_delay = interword_delay
-        # self.dash_duration = dash_duration
-        # self.angle_rest = angle_rest
-        # self.angle_keyed = angle_keyed
-        # self.travel_delay = travel_delay
-        self.dot_duration = dot_duration
-        self.dash_duration = dot_duration * 3
+    def __init__(self, bcm_pin, dot_delay=0.15, dash_delay=0.45, interkey_delay=0.15, interword_delay=1.05, angle_rest=0, angle_keyed=15, travel_delay=0.1):
+        self.dot_delay = dot_delay
+        self.dash_delay = dash_delay
 
-        self.interkey_delay = dot_duration
-        self.interword_delay = dot_duration * 7
+        self.interkey_delay = interkey_delay
+        self.interword_delay = interword_delay
 
-        self.angle_rest = 0
-        self.angle_keyed = 15
+        self.angle_rest = angle_rest
+        self.angle_keyed = angle_keyed
+
+        self.travel_delay = travel_delay
 
         self.servo = AngularServo(bcm_pin)
         self.servo.angle = self.angle_rest
-        while self.servo.angle != self.angle_rest:
-            continue
+        time.sleep(self.travel_delay)
 
     def string_to_morse(self, input_string):
         morse_output = ''
@@ -57,35 +52,26 @@ class MorseKeyer:
         }
 
         def key_press(key_type):
-            logger.debug('key_type: ' + key_type)
-
-            travel_delay = 0.02 * abs(self.angle_keyed - self.angle_rest)
-            logger.debug('travel_delay: ' + str(travel_delay))
-
             if key_type == '.':
                 self.servo.angle = self.angle_keyed
-                # time.sleep(self.travel_delay)
-                time.sleep(travel_delay)
+                time.sleep(self.travel_delay)
 
-                time.sleep(self.dot_duration)
+                time.sleep()
 
                 self.servo.angle = self.angle_rest
-                # time.sleep(self.travel_delay)
-                time.sleep(travel_delay)
+                time.sleep(self.travel_delay)
 
             elif key_type == '-':
                 self.servo.angle = self.angle_keyed
-                # time.sleep(self.travel_delay)
-                time.sleep(travel_delay)
+                time.sleep(self.travel_delay)
 
-                time.sleep(self.dash_duration)
+                time.sleep(self.dash_delay)
 
                 self.servo.angle = self.angle_rest
-                # time.sleep(self.travel_delay)
-                time.sleep(travel_delay)
+                time.sleep(self.travel_delay)
 
             elif key_type == ' ':
-                time.sleep(self.interword_delay - self.interkey_delay)
+                time.sleep(self.interword_delay)
 
             else:
                 logger.error('Unrecognized key_type in output_morse.key_press().')
