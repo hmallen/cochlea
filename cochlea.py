@@ -85,7 +85,7 @@ def microphone_speech_input():
         if parameters['dynamic_energy_threshold'] is True:
             logger.debug('Adjusting for ambient noise.')
             lcd.lcd_clear()
-            lcd_display('Recalibrating...', 1)
+            lcd_display('Calibrating...', 1)
             recognizer.adjust_for_ambient_noise(source)#, duration=1)
             # time.sleep(1)
         logger.info('Speak now.')
