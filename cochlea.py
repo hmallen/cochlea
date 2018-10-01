@@ -56,7 +56,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
     logger.debug('recognizer.energy_threshold: ' + str(recognizer.energy_threshold))
     with microphone as source:
         logger.debug('Adjusting for ambient noise.')
-        recognizer.adjust_for_ambient_noise(source, duration=5)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
         # time.sleep(1)
         print('Speak now.')
         try:
@@ -98,9 +98,9 @@ if __name__ == '__main__':
     # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = parameters['energy_threshold']
-    recognizer.dynamic_energy_threshold = parameters['dynamic_energy_threshold']
-    recognizer.pause_threshold = parameters['pause_threshold']
+    recognizer.energy_threshold = 150#parameters['energy_threshold']
+    recognizer.dynamic_energy_threshold = False#parameters['dynamic_energy_threshold']
+    recognizer.pause_threshold = 0.5#parameters['pause_threshold']
     microphone = sr.Microphone(device_index=2)
 
     try:
