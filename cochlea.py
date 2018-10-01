@@ -21,7 +21,7 @@ args = parser.parse_args()
 parameters = {
     'energy_threshold': args.energy_thresh,
     'dynamic_energy_threshold': args.dynamic_thresh,
-    'pause_threshold': args.paush_thresh
+    'pause_threshold': args.pause_thresh
 }
 
 morse_reference_file = 'morse_reference.json'
