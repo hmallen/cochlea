@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # lcd_display(lcd, 'When prompted, speak sentence for translation.', 2)
 
     recognizer = sr.Recognizer()
-    microphone = sr.Microphone()
+    microphone = sr.Microphone(device_index=2)
 
     try:
         while True:
