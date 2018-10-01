@@ -64,6 +64,6 @@ class MorseKeyer:
 
 
 if __name__ == '__main__':
-    morse = MorseKeyer()
+    morse = MorseKeyer(servo_pin)
     morse_test = 'hello world'
     morse.output_morse(morse_test)
