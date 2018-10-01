@@ -5,6 +5,8 @@ import time
 if __name__ == '__main__':
     lcd_screen = i2c_lcd_driver.lcd()
 
+    lcd_screen.lcd_display_string('Hello, world!', 1)
+
     str_pad = ' ' * 16
     display_string = str_pad + 'Hello, world! Making longer to scroll.'
 
