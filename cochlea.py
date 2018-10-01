@@ -14,13 +14,13 @@ logger.setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-e', '--energy_thresh', type=float, default=300, help='Energy threshold')
-parser.add_argument('-d', '--no_dynamic_thresh', action='store_false', default=True, help='Dynamic energy threshold')
+parser.add_argument('-d', '--dynamic_thresh', action='store_true', default=False, help='Dynamic energy threshold')
 parser.add_argument('-p', '--pause_thresh', type=float, default=0.5, help='Pause threshold')
 args = parser.parse_args()
 
 parameters = {
     'energy_threshold': args.energy_thresh,
-    'dynamic_energy_threshold': args.no_dynamic_thresh,
+    'dynamic_energy_threshold': args.dynamic_thresh,
     'pause_threshold': args.pause_thresh
 }
 
