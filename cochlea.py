@@ -55,7 +55,7 @@ def microphone_speech_input(recognizer, microphone, lcd):
     # from the microphone
     with microphone as source:
         logger.debug('Adjusting for ambient noise.')
-        recognizer.adjust_for_ambient_noise(source, duration=2)
+        recognizer.adjust_for_ambient_noise(source, duration=5)
         # time.sleep(1)
         print('Speak now.')
         audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
