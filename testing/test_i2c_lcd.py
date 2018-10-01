@@ -8,11 +8,11 @@ if __name__ == '__main__':
     lcd_screen.lcd_display_string('Hello, world!', 1)
 
     str_pad = ' ' * 16
-    display_string = str_pad + 'Hello, world! Making longer to scroll.'
+    display_string = str_pad + 'Hello, world! Making longer to scroll.' + str_pad
 
     while True:
-        for x in range(0, len(display_string)):
+        for x in range(0, (len(display_string) + 16)):
             display_text = display_string[x:(x+16)]
             lcd_screen.lcd_display_string(display_text, 2)
             time.sleep(0.1)
-            lcd_screen.lcd_display_string(str_pad, 2)
+            # lcd_screen.lcd_display_string(str_pad, 2)
