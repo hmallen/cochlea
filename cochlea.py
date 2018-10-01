@@ -58,7 +58,7 @@ def lcd_display(display_string, line_number):
             display_text = display_string[x:(x+16)]
             lcd.lcd_display_string(display_text, line_number)
             time.sleep(0.15)
-        time.sleep(1)
+        time.sleep(2.5)
 
 
 def microphone_speech_input():
