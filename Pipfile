@@ -11,6 +11,7 @@ gpiozero = "*"
 pigpio = "*"
 pocketsphinx = "*"
 "smbus2" = "*"
+"rpi.gpio" = "*"
 
 [dev-packages]
 
